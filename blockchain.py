@@ -22,7 +22,7 @@ import json
 from uuid import uuid4
 from textwrap import dedent
 from flask import Flask, jsonify, request
-
+# from urllib import urlparse
 
 
 class Blockchain(object):
@@ -30,6 +30,8 @@ class Blockchain(object):
         self.chain = []
         self.current_transactions = []
         self.new_block(previous_hash=1,proof=100)
+        self.node = set()
+        
     def new_block(self,proof,previous_hash=None):
         block = {
             'index': len(self.chain) + 1,
@@ -42,7 +44,10 @@ class Blockchain(object):
         self.current_transactions = []
         self.chain.append(block)
         return block
-
+    def register_node(self,address):
+        parsed_url = urlparse(address)
+        self.nodes.add(parsed_url.netloc)
+        
     def new_transaction(self,sender,recipient,amount):
         self.current_transactions.append({
             'sender': sender,
