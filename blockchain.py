@@ -49,7 +49,7 @@ class Blockchain(object):
             'recipient': recipient,
             'amount': amount
         })
-        return self.last_block['index'] + 1;
+        return self.last_block['index'] + 1
     
     @staticmethod
     def hash(block):
@@ -69,10 +69,10 @@ class Blockchain(object):
     
     @staticmethod
     def valid_proof(last_proof,proof):
-        #proves last 4 digits of hash are 0
+        # proves last 2 digits of hash are 00
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:4] == "00"
+        return guess_hash[:4] == "0000"
     
     
 app = Flask(__name__)
@@ -128,4 +128,3 @@ def new_transaction():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=5000)
-    
